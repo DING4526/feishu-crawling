@@ -28,11 +28,12 @@
 
 	- 安装 Google Chrome 浏览器。
 	- 下载与您 Chrome 版本匹配的 [ChromeDriver](https://sites.google.com/chromium.org/driver/downloads)（115之后的版本在 [Chrome For Testing](https://googlechromelabs.github.io/chrome-for-testing/)）
+	- 下载并解压chromedriver的压缩包，将 `chormedriver_address` 设置为 chromedriver.exe 的路径
 
 ## 使用步骤
 
 1. **配置文件路径**： 在代码中，你需要设置以下路径：
-	- `google_chorme_address`：设置为你本地 ChromeDriver 的路径。
+	- `chormedriver_address`：设置为你本地 ChromeDriver 的路径。
 	- `feishu_url`：Feishu 网页链接，默认为 `https://nankai.feishu.cn/next/messenger/`。
 	- `original_file_path`：输入的 Excel 文件路径，包含学生姓名列。
 	- `new_file_path`：输出的新 Excel 文件路径，包含学生姓名、学号和学院。

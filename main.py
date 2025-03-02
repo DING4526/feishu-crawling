@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-google_chorme_address = r'C:\Program Files\Google\Chrome\ChromeDriver\chromedriver.exe'
+chormedriver_address = r'C:\Program Files\Google\Chrome\ChromeDriver\chromedriver.exe'
 feishu_url = 'https://nankai.feishu.cn/next/messenger/'
 directory_path=r"./"
 # directory_path=r"D:/Desktop/"
@@ -16,7 +16,7 @@ original_file_path = directory_path + r"old.xlsx"
 new_file_path = directory_path + r"new.xlsx"
 
 # 设置Chrome驱动
-service = Service(google_chorme_address)
+service = Service(chormedriver_address)
 driver = webdriver.Chrome(service=service)
 
 
@@ -65,13 +65,13 @@ def search_info(box, name_list, record_list, get_first, basic_filter, delay_sec=
 
     wait = WebDriverWait(driver, 10)
 
-    for student in name_list:
-        if pd.isna(student):
+    for query in name_list:
+        if pd.isna(query):
             record_list.append(('', '', ''))
             continue
 
-        box.send_keys(student)
-        print(f"Entered: {student}")
+        box.send_keys(query)
+        print(f"Entered: {query}")
 
         time.sleep(delay_sec)
 
@@ -85,12 +85,12 @@ def search_info(box, name_list, record_list, get_first, basic_filter, delay_sec=
                 stu_college = wait.until(EC.presence_of_element_located((By.XPATH,
                                                   info_wrapper + '/div[2]/div/span'))).text
                 # 综合查询：college //*[contains(@class, "common-items-wrapper smart-search-tab")]/div[1]/div[2]/div[2]/div/div[2]/div/span
-                record_tuple = (student, stu_id, stu_college)
+                record_tuple = (query, stu_id, stu_college)
                 record_list.append(record_tuple)
                 print(record_tuple, "done")
             except Exception as e:
-                print(f"Error occurred for student {student}: {e}")
-                record_list.append((student, 'ERROR', 'ERROR'))
+                print(f"Error occurred for query {query}: {e}")
+                record_list.append((query, 'ERROR', 'ERROR'))
 
         else:
             div_wrapper = wait.until(EC.presence_of_element_located(
@@ -108,7 +108,7 @@ def search_info(box, name_list, record_list, get_first, basic_filter, delay_sec=
                     stu_note = wait.until(EC.presence_of_element_located((By.XPATH,
                                                      info_wrapper + '/div[1]/div[1]/div[2]'))).text
                     if basic_filter:
-                        if index > 1 and not stu_name == student or stu_note == "未激活" or stu_note == "暂停使用":
+                        if index > 1 and not stu_name == query or stu_note == "未激活" or stu_note == "暂停使用":
                             continue
 
                     try:
@@ -117,14 +117,14 @@ def search_info(box, name_list, record_list, get_first, basic_filter, delay_sec=
                         stu_college = wait.until(EC.presence_of_element_located((By.XPATH,
                                                           info_wrapper + '/div[2]/div/div[2]/div/span'))).text
                         if index==1:
-                            record_tuple = (student, stu_name, stu_id, stu_college, stu_note)
+                            record_tuple = (query, stu_name, stu_id, stu_college, stu_note)
                         else:
                             record_tuple = ('', stu_name, stu_id, stu_college, stu_note)
                         record_list.append(record_tuple)
                         print(record_tuple, "done")
                     except Exception as e:
-                        print(f"Error occurred for student {student}: {e}")
-                        record_list.append((student, 'ERROR', 'ERROR', 'ERROR', 'ERROR'))
+                        print(f"Error occurred for query {query}: {e}")
+                        record_list.append((query, 'ERROR', 'ERROR', 'ERROR', 'ERROR'))
                     # time.sleep(0.5)
 
                 except Exception:
@@ -155,7 +155,7 @@ def auto_complete_stu_info(get_first=False, basic_filter=True):
 
 
 try:
-    auto_complete_stu_info(get_first=False, basic_filter=False)
+    auto_complete_stu_info(get_first=True, basic_filter=True)
     print("Data entry has been completed!")
 except Exception as e:
     print(f"Error occurred: {e}")
